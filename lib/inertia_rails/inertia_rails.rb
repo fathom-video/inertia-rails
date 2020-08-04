@@ -39,8 +39,8 @@ module InertiaRails
   private
 
   module Configuration
-    thread_mattr_accessor :threadsafe_layout
-    thread_mattr_accessor :threadsafe_version
+    mattr_accessor :threadsafe_layout
+    mattr_accessor :threadsafe_version
 
     def self.evaluated_version
       self.version.respond_to?(:call) ? self.version.call : self.version
