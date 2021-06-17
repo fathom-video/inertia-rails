@@ -1,5 +1,6 @@
 # Needed for `thread_mattr_accessor`
 require 'active_support/core_ext/module/attribute_accessors_per_thread'
+require 'inertia_rails/lazy'
 
 module InertiaRails
   thread_mattr_accessor :threadsafe_shared_plain_data
@@ -36,30 +37,18 @@ module InertiaRails
     self.shared_blocks = []
   end
 
+  def self.lazy(value = nil, &block)
+    InertiaRails::Lazy.new(value, &block)
+  end
+
   private
 
   module Configuration
-    mattr_accessor :threadsafe_layout
-    mattr_accessor :threadsafe_version
+    mattr_accessor(:layout) { 'application' }
+    mattr_accessor(:version) { nil }
 
     def self.evaluated_version
       self.version.respond_to?(:call) ? self.version.call : self.version
-    end
-
-    def self.layout
-      self.threadsafe_layout || 'application'
-    end
-
-    def self.layout=(val)
-      self.threadsafe_layout = val
-    end
-
-    def self.version
-      self.threadsafe_version
-    end
-
-    def self.version=(val)
-      self.threadsafe_version = val
     end
   end
 
