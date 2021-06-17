@@ -48,7 +48,7 @@ RSpec.describe 'using inertia share when rendering views', type: :request do
       get share_path, headers: {'X-Inertia' => true}
     }
 
-    # it { is_expected.to eq props.merge({ errors: errors }) }
+    it { is_expected.to eq props.merge({ errors: errors }) }
   end
 
   context 'multithreaded intertia share' do

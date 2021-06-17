@@ -16,7 +16,7 @@ RSpec.describe 'InertiaRails::Response', type: :request do
           get redirect_with_inertia_errors_path
           expect(response.status).to eq 302
           expect(response.headers['Location']).to eq(empty_test_url)
-          # expect(session[:inertia_errors]).to include({ uh: 'oh' })
+          expect(session[:inertia_errors]).to include({ uh: 'oh' })
         end
       end
 
@@ -25,7 +25,7 @@ RSpec.describe 'InertiaRails::Response', type: :request do
           post redirect_with_inertia_errors_path, headers: { 'X-Inertia' => true }
           expect(response.status).to eq 302
           expect(response.headers['Location']).to eq(empty_test_url)
-          # expect(session[:inertia_errors]).to include({ uh: 'oh' })
+          expect(session[:inertia_errors]).to include({ uh: 'oh' })
         end
       end
     end
@@ -44,7 +44,7 @@ RSpec.describe 'InertiaRails::Response', type: :request do
           )
           expect(response.status).to eq 302
           expect(response.headers['Location']).to eq('http://example.com/current-path')
-          # expect(session[:inertia_errors]).to include({ go: 'back!' })
+          expect(session[:inertia_errors]).to include({ go: 'back!' })
         end
       end
     end

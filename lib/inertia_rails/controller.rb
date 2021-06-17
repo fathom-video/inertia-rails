@@ -4,12 +4,12 @@ module InertiaRails
   module Controller
     extend ActiveSupport::Concern
 
-    # included do
-    #   before_action do
-    #     # :inertia_errors are deleted from the session by the middleware
-    #     InertiaRails.share(errors: session[:inertia_errors]) if session[:inertia_errors].present?
-    #   end
-    # end
+    included do
+      before_action do
+        # :inertia_errors are deleted from the session by the middleware
+        InertiaRails.share(errors: session[:inertia_errors]) if session[:inertia_errors].present?
+      end
+    end
 
     module ClassMethods
       def inertia_share(**args, &block)
@@ -21,12 +21,12 @@ module InertiaRails
     end
 
     def redirect_to(options = {}, response_options = {})
-      # capture_inertia_errors(response_options)
+      capture_inertia_errors(response_options)
       super(options, response_options)
     end
 
     def redirect_back(fallback_location:, allow_other_host: true, **options)
-      # capture_inertia_errors(options)
+      capture_inertia_errors(options)
       super(
         fallback_location: fallback_location,
         allow_other_host: allow_other_host,
@@ -41,10 +41,10 @@ module InertiaRails
       head :conflict
     end
 
-    # def capture_inertia_errors(options)
-    #   if (inertia_errors = options.dig(:inertia, :errors))
-    #     session[:inertia_errors] = inertia_errors
-    #   end
-    # end
+    def capture_inertia_errors(options)
+      if (inertia_errors = options.dig(:inertia, :errors))
+        session[:inertia_errors] = inertia_errors
+      end
+    end
   end
 end
