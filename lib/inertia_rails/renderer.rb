@@ -35,7 +35,7 @@ module InertiaRails
         end
       end
 
-      deep_transform_values(_props, lambda {|prop| prop.respond_to?(:call) ? @controller.instance_exec(&prop) : prop })
+      _props.transform_values {|prop| prop.respond_to?(:call) ? @controller.instance_exec(&prop) : prop }
     end
 
     def page
